@@ -1,7 +1,8 @@
 class Piece {
-  constructor(row, col, player) {
+  constructor(row, col, player, type) {
     this.row = row
     this.col = col
+    this.type = type
     this.player = player
   }
 
@@ -16,10 +17,10 @@ class Piece {
    */
   getPossibleMoves(boardData) {
     let moves
-    if (this.player === BLACK_PLAYER) {
-      moves = this.getBlackPlayerMoves(boardData)
-    } else if (this.player === WHITE_PLAYER) {
-      moves = this.getWhitePlayerMoves(boardData)
+    if (this.player === PAWN) {
+      moves = this.getPawnMoves(boardData)
+    } else if (this.player === QUEEN) {
+      moves = this.getQueenMoves(boardData)
     } else {
       console.log("Unknown type", type)
     }
@@ -41,7 +42,56 @@ class Piece {
     return filteredMoves
   }
 
-  getBlackPlayerMoves() {}
+  getPawnMoves() {
+    let result = []
 
-  getWhitePlayerMoves() {}
+    let direction = 1
+    if (this.player === BLACK_PLAYER) {
+      direction = -1
+    }
+
+    let position = [this.row + direction, this.col]
+    if (boardData.isEmpty(position[0], position[1])) {
+      result.push(position)
+    }
+
+    position = [this.row + direction, this.col + direction]
+    if (boardData.isPlayer(position[0], position[1], this.getOpponent())) {
+      result.push(position)
+    }
+
+    position = [this.row + direction, this.col - direction]
+    if (boardData.isPlayer(position[0], position[1], this.getOpponent())) {
+      result.push(position)
+    }
+
+    return result
+  }
+
+  getQueenMoves() {
+    let result = []
+    result = result.concat(this.getMovesInDirection(-1, -1, boardData))
+    result = result.concat(this.getMovesInDirection(-1, 1, boardData))
+    result = result.concat(this.getMovesInDirection(1, -1, boardData))
+    result = result.concat(this.getMovesInDirection(1, 1, boardData))
+    return result
+  }
+
+  getMovesInDirection(directionRow, directionCol, boardData) {
+    let result = []
+
+    for (let i = 1; i < BOARD_SIZE; i++) {
+      let row = this.row + directionRow * i
+      let col = this.col + directionCol * i
+      if (boardData.isEmpty(row, col)) {
+        result.push([row, col])
+      } else if (boardData.isPlayer(row, col, this.getOpponent())) {
+        result.push([row, col])
+        return result
+      } else if (boardData.isPlayer(row, col, this.player)) {
+        return result
+      }
+    }
+    return result
+  }
 }
