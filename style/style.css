@@ -3,6 +3,11 @@
   justify-content: center;
 }
 
+.table {
+  display: flex;
+  justify-content: center;
+}
+
 .light-cell {
   background: rgba(193, 165, 119, 0.654);
   width: 48px;
