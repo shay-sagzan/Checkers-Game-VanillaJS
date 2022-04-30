@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.light-cell {
+  background: rgba(193, 165, 119, 0.654);
+  width: 48px;
+  height: 48px;
+  user-select: none;
+}
+
+.dark-cell {
+  background: #9d571b;
+  width: 48px;
+  height: 48px;
+  user-select: none;
+}
