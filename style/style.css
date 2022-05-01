@@ -8,14 +8,6 @@
   justify-content: center;
 }
 
-.selected {
-  background: rgb(211, 206, 53);
-}
-
-.possible-move {
-  background: rgba(98, 148, 182, 0.746);
-}
-
 img {
   display: flex;
   justify-content: center;
@@ -38,4 +30,12 @@ img {
   user-select: none;
   justify-content: space-evenly;
   align-items: center;
+}
+
+.selected {
+  background: rgb(211, 206, 53);
+}
+
+.possible-move {
+  background: rgba(98, 148, 182, 0.746);
 }

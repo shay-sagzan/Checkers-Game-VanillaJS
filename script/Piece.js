@@ -73,10 +73,20 @@ class Piece {
 
   getPawnMoves(boardData) {
     let result = []
-    const relativeMoves = [
-      [1, 1],
-      [1, -1],
-    ]
+    let relativeMoves = []
+    if (this.player === BLACK_PLAYER) {
+      relativeMoves = [
+        [-1, 1],
+        [-1, -1],
+      ]
+    }
+    if (this.player === WHITE_PLAYER) {
+      relativeMoves = [
+        [1, -1],
+        [1, 1],
+      ]
+    }
+
     for (let relativeMove of relativeMoves) {
       let row = this.row + relativeMove[0]
       let col = this.col + relativeMove[1]
@@ -87,7 +97,7 @@ class Piece {
     return result
   }
 
-  getQueenMoves() {
+  getQueenMoves(boardData) {
     let result = []
     result = result.concat(this.getMovesInDirection(-1, -1, boardData))
     result = result.concat(this.getMovesInDirection(-1, 1, boardData))
