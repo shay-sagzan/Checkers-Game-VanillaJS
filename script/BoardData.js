@@ -67,10 +67,6 @@ class BoardData {
     for (let i = 0; i < this.pieces.length; i++) {
       const piece = this.pieces[i]
       if (piece.row === row && piece.col === col) {
-        let oldPiecePlayer = piece.player
-        let oldPieceType = piece.type
-        this.addSmallImages(oldPiecePlayer, oldPieceType)
-
         // Remove piece at index i
         this.pieces.splice(i, 1)
         return piece

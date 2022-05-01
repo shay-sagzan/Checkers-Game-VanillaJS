@@ -22,7 +22,9 @@ class Piece {
   getPossibleMoves(boardData) {
     let moves
     if (this.type === PAWN) {
-      moves = this.getPawnMoves(boardData)
+      if (this.player === WHITE_PLAYER) {
+        moves = this.getWhitePawnMoves(boardData)
+      } else moves = this.getBlackPawnMoves(boardData)
     } else if (this.type === QUEEN) {
       moves = this.getQueenMoves(boardData)
     } else {
@@ -46,52 +48,63 @@ class Piece {
     return filteredMoves
   }
 
-  eatFunction(boardData) {
+  getWhitePawnMoves(boardData) {
     let result = []
-    let direction = 2
-    if (this.player === BLACK_PLAYER) {
-      direction = -2
-    }
-
-    let position = [this.row + direction, this.col + direction]
-    if (boardData.isEmpty(position[0], position[2])) {
-      result.push(position)
-    }
-
-    position = [this.row + direction, this.col + direction]
-    if (boardData.isPlayer(position[0], position[2], this.getOpponent())) {
-      result.push(position)
-    }
-
-    position = [this.row + direction, this.col - direction]
-    if (boardData.isPlayer(position[0], position[2], this.getOpponent())) {
-      result.push(position)
-    }
-
-    return result
-  }
-
-  getPawnMoves(boardData) {
-    let result = []
-    let relativeMoves = []
-    if (this.player === BLACK_PLAYER) {
-      relativeMoves = [
-        [-1, 1],
-        [-1, -1],
-      ]
-    }
-    if (this.player === WHITE_PLAYER) {
-      relativeMoves = [
-        [1, -1],
-        [1, 1],
-      ]
-    }
-
+    const relativeMoves = [
+      [1, 1],
+      [1, -1],
+    ]
     for (let relativeMove of relativeMoves) {
       let row = this.row + relativeMove[0]
       let col = this.col + relativeMove[1]
-      if (!boardData.isPlayer(row, col, this.player)) {
+      if (boardData.isEmpty(row, col)) {
         result.push([row, col])
+        console.log("regular move")
+      } else if (boardData.isPlayer(row, col, this.getOpponent())) {
+        if (row - 1 === this.row && col - 1 === this.col) {
+          result = [[row + 1, col + 1]]
+          console.log("eat black from right")
+          return result
+        }
+        if (row - 1 === this.row && col + 1 === this.col) {
+          result = [[row + 1, col - 1]]
+          console.log("eat black from left")
+          return result
+        }
+      } else if (boardData.isPlayer(row, col, this.player)) {
+        console.log("friend")
+        return result
+      }
+    }
+    return result
+  }
+
+  getBlackPawnMoves(boardData) {
+    let result = []
+    const relativeMoves = [
+      [-1, 1],
+      [-1, -1],
+    ]
+    for (let relativeMove of relativeMoves) {
+      let row = this.row + relativeMove[0]
+      let col = this.col + relativeMove[1]
+      if (boardData.isEmpty(row, col)) {
+        result.push([row, col])
+        console.log("regular move")
+      } else if (boardData.isPlayer(row, col, this.getOpponent())) {
+        if (row - 1 === this.row && col + 1 === this.col) {
+          console.log("eat white from right")
+          result = [[row - 1, col + 1]]
+          return result
+        }
+        if (row - 1 === this.row && col - 1 === this.col) {
+          console.log("eat white from left")
+          result = [[row - 1, col - 1]]
+          return result
+        }
+      } else if (boardData.isPlayer(row, col, this.player)) {
+        console.log("friend")
+        return result
       }
     }
     return result
