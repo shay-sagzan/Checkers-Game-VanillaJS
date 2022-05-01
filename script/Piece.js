@@ -7,19 +7,23 @@ class Piece {
   }
 
   /**
-   * @function getPossibleMoves
-   * The function check what is the possible move of every piece in the table according
-   * to the type of the piece
-   * !!! that explanation is relevant for all the next functions !!!
-   * @param boardData - the given board data from the table
+   * @function getOpponent
+   * The function check if player in specific cell is opponent
    * @returns
-   * The filtered moves for selected element
+   * The opponent player color
    */
+  getOpponent() {
+    if (this.player === WHITE_PLAYER) {
+      return BLACK_PLAYER
+    }
+    return WHITE_PLAYER
+  }
+
   getPossibleMoves(boardData) {
     let moves
-    if (this.player === PAWN) {
+    if (this.type === PAWN) {
       moves = this.getPawnMoves(boardData)
-    } else if (this.player === QUEEN) {
+    } else if (this.type === QUEEN) {
       moves = this.getQueenMoves(boardData)
     } else {
       console.log("Unknown type", type)
@@ -42,29 +46,44 @@ class Piece {
     return filteredMoves
   }
 
-  getPawnMoves() {
+  eatFunction(boardData) {
     let result = []
-
-    let direction = 1
+    let direction = 2
     if (this.player === BLACK_PLAYER) {
-      direction = -1
+      direction = -2
     }
 
-    let position = [this.row + direction, this.col]
-    if (boardData.isEmpty(position[0], position[1])) {
+    let position = [this.row + direction, this.col + direction]
+    if (boardData.isEmpty(position[0], position[2])) {
       result.push(position)
     }
 
     position = [this.row + direction, this.col + direction]
-    if (boardData.isPlayer(position[0], position[1], this.getOpponent())) {
+    if (boardData.isPlayer(position[0], position[2], this.getOpponent())) {
       result.push(position)
     }
 
     position = [this.row + direction, this.col - direction]
-    if (boardData.isPlayer(position[0], position[1], this.getOpponent())) {
+    if (boardData.isPlayer(position[0], position[2], this.getOpponent())) {
       result.push(position)
     }
 
+    return result
+  }
+
+  getPawnMoves(boardData) {
+    let result = []
+    const relativeMoves = [
+      [1, 1],
+      [1, -1],
+    ]
+    for (let relativeMove of relativeMoves) {
+      let row = this.row + relativeMove[0]
+      let col = this.col + relativeMove[1]
+      if (!boardData.isPlayer(row, col, this.player)) {
+        result.push([row, col])
+      }
+    }
     return result
   }
 
