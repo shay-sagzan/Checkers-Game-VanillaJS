@@ -65,8 +65,13 @@ class BoardData {
    */
   removePiece(row, col) {
     for (let i = 0; i < this.pieces.length; i++) {
-      const piece = this.pieces[i]
-      if (piece.row === row && piece.col === col) {
+      const piece = this.pieces[i] // i have all the objects of piece
+      //check for possible forward eats
+      if (
+        (piece.row === row + 1 && piece.col === col + 1) ||
+        (piece.row === row + 1 && piece.col === col - 1)
+      ) {
+        console.log(piece)
         // Remove piece at index i
         this.pieces.splice(i, 1)
         return piece

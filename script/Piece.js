@@ -24,7 +24,9 @@ class Piece {
     if (this.type === PAWN) {
       if (this.player === WHITE_PLAYER) {
         moves = this.getWhitePawnMoves(boardData)
-      } else moves = this.getBlackPawnMoves(boardData)
+      } else if (this.player === BLACK_PLAYER) {
+        moves = this.getBlackPawnMoves(boardData)
+      }
     } else if (this.type === QUEEN) {
       moves = this.getQueenMoves(boardData)
     } else {
@@ -47,7 +49,6 @@ class Piece {
     }
     return filteredMoves
   }
-
   getWhitePawnMoves(boardData) {
     let result = []
     const relativeMoves = [
@@ -61,19 +62,25 @@ class Piece {
         result.push([row, col])
         console.log("regular move")
       } else if (boardData.isPlayer(row, col, this.getOpponent())) {
-        if (row - 1 === this.row && col - 1 === this.col) {
-          result = [[row + 1, col + 1]]
+        if (
+          row - 1 === this.row &&
+          col - 1 === this.col &&
+          boardData.isEmpty(row + 1, col + 1)
+        ) {
+          result.push([row + 1, col + 1])
           console.log("eat black from right")
           return result
-        }
-        if (row - 1 === this.row && col + 1 === this.col) {
-          result = [[row + 1, col - 1]]
+        } else if (
+          row - 1 === this.row &&
+          col + 1 === this.col &&
+          boardData.isEmpty(row + 1, col - 1)
+        ) {
+          result.push([row + 1, col - 1])
           console.log("eat black from left")
           return result
         }
       } else if (boardData.isPlayer(row, col, this.player)) {
         console.log("friend")
-        return result
       }
     }
     return result
@@ -92,14 +99,22 @@ class Piece {
         result.push([row, col])
         console.log("regular move")
       } else if (boardData.isPlayer(row, col, this.getOpponent())) {
-        if (row - 1 === this.row && col + 1 === this.col) {
+        if (
+          row + 1 === this.row &&
+          col - 1 === this.col &&
+          boardData.isEmpty(row - 1, col + 1)
+        ) {
           console.log("eat white from right")
-          result = [[row - 1, col + 1]]
+          result.push([row - 1, col + 1])
           return result
         }
-        if (row - 1 === this.row && col - 1 === this.col) {
+        if (
+          row + 1 === this.row &&
+          col + 1 === this.col &&
+          boardData.isEmpty(row - 1, col - 1)
+        ) {
           console.log("eat white from left")
-          result = [[row - 1, col - 1]]
+          result.push([row - 1, col - 1])
           return result
         }
       } else if (boardData.isPlayer(row, col, this.player)) {
@@ -135,5 +150,16 @@ class Piece {
       }
     }
     return result
+  }
+
+  changeToQueen() {
+    let rowForBlack = 0
+    let rowForWhite = 7
+    if (this.player === BLACK_PLAYER && this.row === rowForBlack) {
+      this.type === QUEEN
+    }
+    if (this.player === WHITE_PLAYER && this.row === rowForWhite) {
+      this.type === QUEEN
+    }
   }
 }

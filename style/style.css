@@ -39,3 +39,14 @@ img {
 .possible-move {
   background: rgba(98, 148, 182, 0.746);
 }
+
+.winner-dialog {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 50;
+  border-radius: 10px;
+  width: max-content;
+}
