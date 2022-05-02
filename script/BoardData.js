@@ -10,33 +10,17 @@ class BoardData {
   initPieces() {
     this.pieces = []
 
-    //white pieces
-    this.pieces.push(new Piece(0, 1, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(0, 3, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(0, 5, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(0, 7, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(1, 0, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(1, 2, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(1, 4, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(1, 6, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(2, 1, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(2, 3, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(2, 5, WHITE_PLAYER, PAWN))
-    this.pieces.push(new Piece(2, 7, WHITE_PLAYER, PAWN))
+    for (let i = 1; i < BOARD_SIZE; i += 2) {
+      this.pieces.push(new Piece(0, i, WHITE_PLAYER, PAWN))
+      this.pieces.push(new Piece(2, i, WHITE_PLAYER, PAWN))
+      this.pieces.push(new Piece(6, i, BLACK_PLAYER, PAWN))
+    }
 
-    //black pieces
-    this.pieces.push(new Piece(5, 0, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(5, 2, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(5, 4, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(5, 6, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(6, 1, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(6, 3, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(6, 5, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(6, 7, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(7, 0, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(7, 2, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(7, 4, BLACK_PLAYER, PAWN))
-    this.pieces.push(new Piece(7, 6, BLACK_PLAYER, PAWN))
+    for (let i = 0; i < BOARD_SIZE; i += 2) {
+      this.pieces.push(new Piece(1, i, WHITE_PLAYER, PAWN))
+      this.pieces.push(new Piece(5, i, BLACK_PLAYER, PAWN))
+      this.pieces.push(new Piece(7, i, BLACK_PLAYER, PAWN))
+    }
   }
 
   /**

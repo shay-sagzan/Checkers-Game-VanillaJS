@@ -79,6 +79,7 @@ class Piece {
           console.log("eat black from left")
           return result
         }
+        boardData.removePiece(row, col)
       } else if (boardData.isPlayer(row, col, this.player)) {
         console.log("friend")
       }
@@ -95,6 +96,7 @@ class Piece {
     for (let relativeMove of relativeMoves) {
       let row = this.row + relativeMove[0]
       let col = this.col + relativeMove[1]
+
       if (boardData.isEmpty(row, col)) {
         result.push([row, col])
         console.log("regular move")
