@@ -20,14 +20,12 @@ class Game {
       if (possibleMove[0] === row && possibleMove[1] === col) {
         piece.row = row
         piece.col = col
-        if (piece.canEatLeft === true) {
-          this.boardData.removePiece(row, col)
-        } else if (piece.canEatRight === true) {
+        if (piece.canEatLeft === true || piece.canEatRight === true) {
           this.boardData.removePiece(row, col)
         }
+
         this.currentPlayer = piece.getOpponent()
         return true
-      } else {
       }
     }
     return false

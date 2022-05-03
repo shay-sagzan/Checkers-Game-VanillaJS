@@ -4,18 +4,10 @@ class Piece {
     this.col = col
     this.type = type
     this.player = player
-    this.relativeMoves = []
+    this.possibleMoves = []
     this.canEatLeft = false
     this.canEatRight = false
     this.alive = true
-  }
-
-  get relativeMoves() {
-    return this.relativeMoves
-  }
-
-  set relativeMoves(pm) {
-    this.relativeMoves = pm
   }
 
   /**
@@ -69,12 +61,11 @@ class Piece {
    * @returns
    * The opponent player color
    */
-  getOpponent(row, col) {
-    this.getPiece(row, col)
+  getOpponent() {
     if (this.player === WHITE_PLAYER) {
-      return BLACK_PLAYER, row, col
+      return BLACK_PLAYER
     }
-    return WHITE_PLAYER, row, col
+    return WHITE_PLAYER
   }
 
   changeToQueen() {
@@ -96,81 +87,51 @@ class Pawn extends Piece {
 
   getPawnMoves(boardData) {
     let result = []
-    let direction = 1
-    if (this.player === BLACK_PLAYER) {
-      direction = -1
-    }
+    let relativeMoves = []
     if (this.player === WHITE_PLAYER) {
-      this.relativeMoves = [
+      relativeMoves = [
         [1, 1],
         [1, -1],
       ]
-    }
-
-    if (this.player === BLACK_PLAYER) {
-      this.relativeMoves = [
+    } else {
+      relativeMoves = [
         [-1, 1],
         [-1, -1],
       ]
     }
-    for (let relativeMove of this.relativeMoves) {
+    for (let relativeMove of relativeMoves) {
       let row = this.row + relativeMove[0]
       let col = this.col + relativeMove[1]
+
       if (boardData.isEmpty(row, col)) {
         result.push([row, col])
-      }
-      if (this.getOpponent(row, col)) {
+      } else if (boardData.isPlayer(row, col, this.player)) {
+        result.push([])
+      } else {
+        if (this.player === WHITE_PLAYER) {
+          if (relativeMoves[0] === relativeMove) {
+            this.canEat = true
+            result.push([row + 1, col + 1])
+          } else {
+            this.canEat = true
+            result.push([row + 1, col - 1])
+          }
+        } else {
+          if (relativeMoves[0] === relativeMove) {
+            this.canEat = true
+            result.push([row - 1, col + 1])
+          } else {
+            this.canEat = true
+            result.push([row - 1, col - 1])
+          }
+        }
       }
     }
+    if (possibleMoves.length === 0) {
+      this.winner = this.getOpponent()
+      this.endOfTheGame()
+    }
     return result
-  }
-}
-
-//   getBlackPawnMoves(boardData) {
-//     let result = []
-//     this.relativeMoves = [
-//       [-1, 1],
-//       [-1, -1],
-//     ]
-//     for (let relativeMove of this.relativeMoves) {
-//       let row = this.row + relativeMove[0]
-//       let col = this.col + relativeMove[1]
-
-//       if (boardData.isEmpty(row, col)) {
-//         result.push([row, col])
-//       } else if (boardData.isPlayer(row, col, this.getOpponent())) {
-//         if (
-//           row + 1 === this.row &&
-//           col - 1 === this.col &&
-//           boardData.isEmpty(row - 1, col + 1)
-//         ) {
-//           console.log("eat white from right")
-//           result.push([row - 1, col + 1])
-//           this.canEatRight = true
-//           return result
-//         }
-//         if (
-//           row + 1 === this.row &&
-//           col + 1 === this.col &&
-//           boardData.isEmpty(row - 1, col - 1)
-//         ) {
-//           console.log("eat white from left")
-//           result.push([row - 1, col - 1])
-//           this.canEatLeft = true
-//           return result
-//         }
-//       } else if (boardData.isPlayer(row, col, this.player)) {
-//         console.log("friend")
-//         return result
-//       }
-//     }
-//     return result
-//   }
-// }
-
-class Queen extends Piece {
-  constructor(row, col, player, type) {
-    super(row, col, player, type)
   }
 
   getQueenMoves(boardData) {
