@@ -70,19 +70,35 @@ class Piece {
         result.push([])
       } else {
         if (this.player === WHITE_PLAYER) {
-          if (relativeMoves[0] === relativeMove) {
+          if (
+            relativeMoves[0] === relativeMove &&
+            boardData.isEmpty(row + 1, col + 1)
+          ) {
             this.canEat = true
+            result.splice(0, result.length)
             result.push([row + 1, col + 1])
-          } else {
+          } else if (
+            relativeMoves[1] === relativeMove &&
+            boardData.isEmpty(row + 1, col - 1)
+          ) {
             this.canEat = true
             result.push([row + 1, col - 1])
           }
         } else {
-          if (relativeMoves[0] === relativeMove) {
+          if (
+            relativeMoves[0] === relativeMove &&
+            boardData.isEmpty(row - 1, col + 1)
+          ) {
             this.canEat = true
+            result.splice(0, result.length)
+            relativeMoves.splice(0, relativeMoves.length)
             result.push([row - 1, col + 1])
-          } else {
+          } else if (
+            relativeMoves[1] === relativeMove &&
+            boardData.isEmpty(row - 1, col - 1)
+          ) {
             this.canEat = true
+            result.splice(0, result.length)
             result.push([row - 1, col - 1])
           }
         }
