@@ -20,9 +20,14 @@ class Game {
       if (possibleMove[0] === row && possibleMove[1] === col) {
         piece.row = row
         piece.col = col
-
+        if (piece.canEatLeft === true) {
+          this.boardData.removePiece(row, col)
+        } else if (piece.canEatRight === true) {
+          this.boardData.removePiece(row, col)
+        }
         this.currentPlayer = piece.getOpponent()
         return true
+      } else {
       }
     }
     return false
@@ -37,6 +42,9 @@ class Game {
    */
   getPossibleMoves(piece) {
     if (this.currentPlayer !== piece.player || this.winner !== undefined) {
+      if (this.winner === BLACK_PLAYER || this.winner === WHITE_PLAYER) {
+        return this.endOfTheGame()
+      }
       return []
     }
     return piece.getPossibleMoves(this.boardData)

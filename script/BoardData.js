@@ -11,15 +11,15 @@ class BoardData {
     this.pieces = []
 
     for (let i = 1; i < BOARD_SIZE; i += 2) {
-      this.pieces.push(new Piece(0, i, WHITE_PLAYER, PAWN))
-      this.pieces.push(new Piece(2, i, WHITE_PLAYER, PAWN))
-      this.pieces.push(new Piece(6, i, BLACK_PLAYER, PAWN))
+      this.pieces.push(new Pawn(0, i, WHITE_PLAYER, PAWN))
+      this.pieces.push(new Pawn(2, i, WHITE_PLAYER, PAWN))
+      this.pieces.push(new Pawn(6, i, BLACK_PLAYER, PAWN))
     }
 
     for (let i = 0; i < BOARD_SIZE; i += 2) {
-      this.pieces.push(new Piece(1, i, WHITE_PLAYER, PAWN))
-      this.pieces.push(new Piece(5, i, BLACK_PLAYER, PAWN))
-      this.pieces.push(new Piece(7, i, BLACK_PLAYER, PAWN))
+      this.pieces.push(new Pawn(1, i, WHITE_PLAYER, PAWN))
+      this.pieces.push(new Pawn(5, i, BLACK_PLAYER, PAWN))
+      this.pieces.push(new Pawn(7, i, BLACK_PLAYER, PAWN))
     }
   }
 
@@ -51,13 +51,15 @@ class BoardData {
     for (let i = 0; i < this.pieces.length; i++) {
       const piece = this.pieces[i] // i have all the objects of piece
       //check for possible forward eats
+
       if (
-        (piece.row === row + 1 && piece.col === col + 1) ||
-        (piece.row === row + 1 && piece.col === col - 1)
+        (piece.row === row - 1 && piece.col === col - 1) ||
+        (piece.row === row - 1 && piece.col === col + 1)
       ) {
-        console.log(piece)
-        // Remove piece at index i
+        console.log(piece.row)
+        console.log(piece.col)
         this.pieces.splice(i, 1)
+
         return piece
       }
     }
