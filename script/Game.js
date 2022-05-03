@@ -20,8 +20,13 @@ class Game {
       if (possibleMove[0] === row && possibleMove[1] === col) {
         piece.row = row
         piece.col = col
-        if (piece.canEatLeft === true || piece.canEatRight === true) {
-          this.boardData.removePiece(row, col)
+        let isRightMove
+        possibleMoves[0] === possibleMove
+          ? (isRightMove = true)
+          : (isRightMove = false)
+        if (piece.canEat === true) {
+          const pawnEatenColor = piece.getOpponent()
+          this.boardData.removePiece(row, col, pawnEatenColor, isRightMove)
         }
 
         this.currentPlayer = piece.getOpponent()
@@ -40,9 +45,6 @@ class Game {
    */
   getPossibleMoves(piece) {
     if (this.currentPlayer !== piece.player || this.winner !== undefined) {
-      if (this.winner === BLACK_PLAYER || this.winner === WHITE_PLAYER) {
-        return this.endOfTheGame()
-      }
       return []
     }
     return piece.getPossibleMoves(this.boardData)
@@ -60,7 +62,6 @@ class Game {
       const winner = game.winner.charAt(0).toUpperCase() + game.winner.slice(1)
       winnerPopup.classList.add("Victory-jumps")
       winnerPopup.textContent = winner + " player wins!"
-      console.log(winnerPopup.textContent)
       table.appendChild(winnerPopup)
       return true
     }

@@ -11,15 +11,15 @@ class BoardData {
     this.pieces = []
 
     for (let i = 1; i < BOARD_SIZE; i += 2) {
-      this.pieces.push(new Pawn(0, i, WHITE_PLAYER, PAWN))
-      this.pieces.push(new Pawn(2, i, WHITE_PLAYER, PAWN))
-      this.pieces.push(new Pawn(6, i, BLACK_PLAYER, PAWN))
+      this.pieces.push(new Piece(0, i, WHITE_PLAYER, PAWN))
+      this.pieces.push(new Piece(2, i, WHITE_PLAYER, PAWN))
+      this.pieces.push(new Piece(6, i, BLACK_PLAYER, PAWN))
     }
 
     for (let i = 0; i < BOARD_SIZE; i += 2) {
-      this.pieces.push(new Pawn(1, i, WHITE_PLAYER, PAWN))
-      this.pieces.push(new Pawn(5, i, BLACK_PLAYER, PAWN))
-      this.pieces.push(new Pawn(7, i, BLACK_PLAYER, PAWN))
+      this.pieces.push(new Piece(1, i, WHITE_PLAYER, PAWN))
+      this.pieces.push(new Piece(5, i, BLACK_PLAYER, PAWN))
+      this.pieces.push(new Piece(7, i, BLACK_PLAYER, PAWN))
     }
   }
 
@@ -44,22 +44,49 @@ class BoardData {
    * The function remove eaten piece from the board
    * @param row - given row
    * @param col - given col
+   * @param removedPawnColor - eat indication
+   * @param isRightMove - eat indication
    * @returns
    * The new element in the row and the col of the eaten element
    */
-  removePiece(row, col) {
+  removePiece(row, col, removedPawnColor, isRightMove) {
+    const eatingIndicationState = {
+      color: removedPawnColor,
+      rightDirection: isRightMove,
+    }
+
+    if (
+      eatingIndicationState.color === BLACK_PLAYER &&
+      eatingIndicationState.rightDirection === true
+    ) {
+      row = row - 1
+      col = col - 1
+    } else if (
+      eatingIndicationState.color === BLACK_PLAYER &&
+      eatingIndicationState.rightDirection === false
+    ) {
+      row = row - 1
+      col = col + 1
+    } else if (
+      eatingIndicationState.color === WHITE_PLAYER &&
+      eatingIndicationState.rightDirection === true
+    ) {
+      row = row + 1
+      col = col - 1
+    } else {
+      row = row + 1
+      col = col + 1
+    }
+
     for (let i = 0; i < this.pieces.length; i++) {
       const piece = this.pieces[i] // i have all the objects of piece
       //check for possible forward eats
-
       if (
-        (piece.row === row - 1 && piece.col === col - 1) ||
-        (piece.row === row - 1 && piece.col === col + 1)
+        (piece.row === row && piece.col === col) ||
+        (piece.row === row && piece.col === col)
       ) {
-        console.log(piece.row)
-        console.log(piece.col)
+        // Remove piece at index i
         this.pieces.splice(i, 1)
-
         return piece
       }
     }

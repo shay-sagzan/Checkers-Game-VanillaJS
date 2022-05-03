@@ -4,38 +4,29 @@ class Piece {
     this.col = col
     this.type = type
     this.player = player
-    this.possibleMoves = []
-    this.canEatLeft = false
-    this.canEatRight = false
-    this.alive = true
+    this.canEat = false
   }
 
   /**
-   * @function removePiece
-   * Remove a piece from the board
-   * and kills it.
+   * @function getOpponent
+   * The function check if player in specific cell is opponent
+   * @returns
+   * The opponent player color
    */
-  removePiece() {
-    this._col = -1
-    this._row = -1
-    this.terminate()
-  }
-
-  terminate() {
-    this._alive = false
-    return true
+  getOpponent() {
+    if (this.player === WHITE_PLAYER) {
+      return BLACK_PLAYER
+    }
+    return WHITE_PLAYER
   }
 
   getPossibleMoves(boardData) {
     let moves
-    if (typeof Pawn) {
+    if (this.type === PAWN) {
       moves = this.getPawnMoves(boardData)
-    }
-    // } else if (typeof Queen) {
-    //   moves = this.getQueenMoves(boardData)
-    // }
-    else {
-      console.log("Unknown type", this.type)
+    } else if (this.type === QUEEN) {
+      moves = this.getQueenMoves(boardData)
+    } else {
     }
 
     // Get filtered absolute moves
@@ -53,36 +44,6 @@ class Piece {
       }
     }
     return filteredMoves
-  }
-
-  /**
-   * @function getOpponent
-   * The function check if player in specific cell is opponent
-   * @returns
-   * The opponent player color
-   */
-  getOpponent() {
-    if (this.player === WHITE_PLAYER) {
-      return BLACK_PLAYER
-    }
-    return WHITE_PLAYER
-  }
-
-  changeToQueen() {
-    let rowForBlack = 0
-    let rowForWhite = 7
-    if (this.player === BLACK_PLAYER && this.row === rowForBlack) {
-      this.type === QUEEN
-    }
-    if (this.player === WHITE_PLAYER && this.row === rowForWhite) {
-      this.type === QUEEN
-    }
-  }
-}
-
-class Pawn extends Piece {
-  constructor(row, col, player, type) {
-    super(row, col, player, type)
   }
 
   getPawnMoves(boardData) {
@@ -127,10 +88,10 @@ class Pawn extends Piece {
         }
       }
     }
-    if (possibleMoves.length === 0) {
-      this.winner = this.getOpponent()
-      this.endOfTheGame()
-    }
+    // if (possibleMoves.length === 0) {
+    //   this.winner = this.getOpponent()
+    //   this.endOfTheGame()
+    // }
     return result
   }
 
@@ -143,21 +104,14 @@ class Pawn extends Piece {
     return result
   }
 
-  getMovesInDirection(directionRow, directionCol, boardData) {
-    let result = []
-
-    for (let i = 1; i < BOARD_SIZE; i++) {
-      let row = this.row + directionRow * i
-      let col = this.col + directionCol * i
-      if (boardData.isEmpty(row, col)) {
-        result.push([row, col])
-      } else if (boardData.isPlayer(row, col, this.getOpponent())) {
-        result.push([row, col])
-        return result
-      } else if (boardData.isPlayer(row, col, this.player)) {
-        return result
-      }
+  changeToQueen() {
+    let rowForBlack = 0
+    let rowForWhite = 7
+    if (this.player === BLACK_PLAYER && this.row === rowForBlack) {
+      this.type === QUEEN
     }
-    return result
+    if (this.player === WHITE_PLAYER && this.row === rowForWhite) {
+      this.type === QUEEN
+    }
   }
 }
