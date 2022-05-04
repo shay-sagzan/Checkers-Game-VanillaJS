@@ -1,6 +1,8 @@
 class BoardData {
   constructor() {
     this.initPieces()
+    this.blackPieces = []
+    this.whitePieces = []
   }
 
   /**
@@ -21,6 +23,26 @@ class BoardData {
       this.pieces.push(new Piece(5, i, BLACK_PLAYER, PAWN))
       this.pieces.push(new Piece(7, i, BLACK_PLAYER, PAWN))
     }
+  }
+
+  checkForBlackArray() {
+    this.blackPieces = []
+    for (let i = 0; i < this.pieces.length; i++) {
+      if (this.pieces[i].player === BLACK_PLAYER) {
+        this.blackPieces.push(this.pieces[i])
+      }
+    }
+    return this.blackPieces
+  }
+
+  checkForWhiteArray() {
+    this.whitePieces = []
+    for (let i = 0; i < this.pieces.length; i++) {
+      if (this.pieces[i].player === WHITE_PLAYER) {
+        this.whitePieces.push(this.pieces[i])
+      }
+    }
+    return this.whitePieces
   }
 
   /**

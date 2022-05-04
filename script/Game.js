@@ -18,15 +18,25 @@ class Game {
     const possibleMoves = this.getPossibleMoves(piece)
     for (const possibleMove of possibleMoves) {
       if (possibleMove[0] === row && possibleMove[1] === col) {
+        let oldPieceCol = piece.col
         piece.row = row
         piece.col = col
-        let isRightMove
-        possibleMoves[0] === possibleMove
-          ? (isRightMove = true)
-          : (isRightMove = false)
+        let isRightMove = false
+        col > oldPieceCol ? (isRightMove = true) : (isRightMove = false)
         if (piece.canEat === true) {
           const pawnEatenColor = piece.getOpponent()
           this.boardData.removePiece(row, col, pawnEatenColor, isRightMove)
+        }
+
+        let blackLose = this.boardData.checkForBlackArray().length
+        let whiteLose = this.boardData.checkForWhiteArray().length
+
+        if (blackLose === 0) {
+          this.winner === WHITE_PLAYER
+          this.endOfTheGame()
+        } else if (whiteLose === 0) {
+          this.winner === BLACK_PLAYER
+          this.endOfTheGame()
         }
 
         this.currentPlayer = piece.getOpponent()
