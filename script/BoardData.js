@@ -12,15 +12,12 @@ class BoardData {
   initPieces() {
     this.pieces = []
 
-    for (let i = 1; i < BOARD_SIZE; i += 2) {
-      this.pieces.push(new Piece(0, i, WHITE_PLAYER, PAWN))
-      this.pieces.push(new Piece(2, i, WHITE_PLAYER, PAWN))
-      this.pieces.push(new Piece(6, i, BLACK_PLAYER, PAWN))
-    }
-
     for (let i = 0; i < BOARD_SIZE; i += 2) {
+      this.pieces.push(new Piece(0, i + 1, WHITE_PLAYER, PAWN))
       this.pieces.push(new Piece(1, i, WHITE_PLAYER, PAWN))
+      this.pieces.push(new Piece(2, i + 1, WHITE_PLAYER, PAWN))
       this.pieces.push(new Piece(5, i, BLACK_PLAYER, PAWN))
+      this.pieces.push(new Piece(6, i + 1, BLACK_PLAYER, PAWN))
       this.pieces.push(new Piece(7, i, BLACK_PLAYER, PAWN))
     }
   }
@@ -43,6 +40,26 @@ class BoardData {
       }
     }
     return this.whitePieces
+  }
+
+  checkForBlackEndMoves() {
+    const blackArr = this.checkForBlackArray()
+    for (let i = 0; i < blackArr; i++) {
+      if (piece.getPawnMoves() === undefined) {
+        game.winner = WHITE_PLAYER
+      }
+    }
+    return true
+  }
+
+  checkForWhiteEndMoves() {
+    const whiteArr = this.checkForWhiteArray()
+    for (let i = 0; i < whiteArr; i++) {
+      if (piece.getPawnMoves() === undefined) {
+        game.winner = BLACK_PLAYER
+      }
+    }
+    return true
   }
 
   /**

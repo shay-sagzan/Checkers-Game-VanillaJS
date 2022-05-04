@@ -123,6 +123,17 @@ function createChekerBoard(boardData) {
  * The function init the game and create the cheker board table
  */
 function initGame() {
+  resetBtn = document.createElement("button")
+  resetBtn.classList.add("btn")
+  document.body.appendChild(resetBtn)
+  resetBtn.textContent = "Reset Game"
+
+  resetBtn.addEventListener("click", function () {
+    table.remove()
+    game = new Game(WHITE_PLAYER)
+    createChekerBoard(game.boardData)
+  })
+
   game = new Game(WHITE_PLAYER)
   createChekerBoard(game.boardData)
 }

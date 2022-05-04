@@ -22,20 +22,28 @@ class Game {
         piece.row = row
         piece.col = col
 
+        if ((this.boardData.checkForBlackEndMoves = true)) {
+          this.winner = WHITE_PLAYER
+        }
+        if ((this.boardData.checkForWhiteEndMoves = true)) {
+          this.winner = BLACK_PLAYER
+        }
+
         let isRightMove = false
         col > oldPieceCol ? (isRightMove = true) : (isRightMove = false)
         if (piece.canEat === true) {
           const pawnEatenColor = piece.getOpponent()
           this.boardData.removePiece(row, col, pawnEatenColor, isRightMove)
         }
-        let whiteLose = this.boardData.checkForWhiteArray().length
-        let blackLose = this.boardData.checkForBlackArray().length
 
-        if (blackLose === 0) {
-          this.winner = WHITE_PLAYER
-        } else if (whiteLose === 0) {
-          this.winner = BLACK_PLAYER
-        }
+        this.boardData.checkForWhiteArray().length === 0
+          ? (this.winner = WHITE_PLAYER)
+          : (this.winner = undefined)
+        this.boardData.checkForBlackArray().length === 0
+          ? (this.winner = BLACK_PLAYER)
+          : (this.winner = undefined)
+
+        piece.changeToQueen()
 
         this.currentPlayer = piece.getOpponent()
         return true

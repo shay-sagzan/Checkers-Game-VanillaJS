@@ -103,7 +103,9 @@ class Piece {
     }
     if (mustEat.length === 0) {
       return result
-    } else return mustEat
+    } else {
+      return mustEat
+    }
   }
 
   getQueenMoves(boardData) {
@@ -116,12 +118,9 @@ class Piece {
   }
 
   changeToQueen() {
-    let rowForBlack = 0
-    let rowForWhite = 7
-    if (this.player === BLACK_PLAYER && this.row === rowForBlack) {
+    if (this.row === 3 && this.player === WHITE_PLAYER) {
       this.type === QUEEN
-    }
-    if (this.player === WHITE_PLAYER && this.row === rowForWhite) {
+    } else if (this.row === 0 && this.player === BLACK_PLAYER) {
       this.type === QUEEN
     }
   }
