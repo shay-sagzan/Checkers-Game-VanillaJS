@@ -1,3 +1,8 @@
+table {
+  position: relative;
+  margin: auto;
+}
+
 .header {
   display: flex;
   justify-content: center;
@@ -45,8 +50,13 @@ img {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: darkgrey;
   padding: 50;
   border-radius: 10px;
-  width: max-content;
+  width: 120;
+  height: 80px;
+  text-align: center;
+  padding: 50px;
+  display: block;
+  padding-top: 70px;
 }

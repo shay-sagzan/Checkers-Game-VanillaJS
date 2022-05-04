@@ -110,7 +110,7 @@ function createChekerBoard(boardData) {
   }
 
   if (game.winner !== undefined) {
-    const winnerPopup = document.createElement("div")
+    const winnerPopup = document.createElement("h2")
     const winner = game.winner.charAt(0).toUpperCase() + game.winner.slice(1)
     winnerPopup.textContent = winner + " player wins!"
     winnerPopup.classList.add("winner-dialog")

@@ -21,22 +21,20 @@ class Game {
         let oldPieceCol = piece.col
         piece.row = row
         piece.col = col
+
         let isRightMove = false
         col > oldPieceCol ? (isRightMove = true) : (isRightMove = false)
         if (piece.canEat === true) {
           const pawnEatenColor = piece.getOpponent()
           this.boardData.removePiece(row, col, pawnEatenColor, isRightMove)
         }
-
-        let blackLose = this.boardData.checkForBlackArray().length
         let whiteLose = this.boardData.checkForWhiteArray().length
+        let blackLose = this.boardData.checkForBlackArray().length
 
         if (blackLose === 0) {
-          this.winner === WHITE_PLAYER
-          this.endOfTheGame()
+          this.winner = WHITE_PLAYER
         } else if (whiteLose === 0) {
-          this.winner === BLACK_PLAYER
-          this.endOfTheGame()
+          this.winner = BLACK_PLAYER
         }
 
         this.currentPlayer = piece.getOpponent()
@@ -58,23 +56,5 @@ class Game {
       return []
     }
     return piece.getPossibleMoves(this.boardData)
-  }
-
-  /**
-   * @function endOfTheGame
-   * The function checking if there is a winner to the game
-   * @returns
-   * If there is a winner she return true with pop-up. Otherwise - false
-   */
-  endOfTheGame() {
-    if (game.winner !== undefined) {
-      const winnerPopup = document.createElement("div")
-      const winner = game.winner.charAt(0).toUpperCase() + game.winner.slice(1)
-      winnerPopup.classList.add("Victory-jumps")
-      winnerPopup.textContent = winner + " player wins!"
-      table.appendChild(winnerPopup)
-      return true
-    }
-    return false
   }
 }

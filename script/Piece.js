@@ -48,6 +48,7 @@ class Piece {
 
   getPawnMoves(boardData) {
     let result = []
+    let mustEat = []
     let relativeMoves = []
     if (this.player === WHITE_PLAYER) {
       relativeMoves = [
@@ -75,14 +76,13 @@ class Piece {
             boardData.isEmpty(row + 1, col + 1)
           ) {
             this.canEat = true
-            result.splice(0, result.length)
-            result.push([row + 1, col + 1])
+            mustEat.push([row + 1, col + 1])
           } else if (
             relativeMoves[1] === relativeMove &&
             boardData.isEmpty(row + 1, col - 1)
           ) {
             this.canEat = true
-            result.push([row + 1, col - 1])
+            mustEat.push([row + 1, col - 1])
           }
         } else {
           if (
@@ -90,25 +90,20 @@ class Piece {
             boardData.isEmpty(row - 1, col + 1)
           ) {
             this.canEat = true
-            result.splice(0, result.length)
-            relativeMoves.splice(0, relativeMoves.length)
-            result.push([row - 1, col + 1])
+            mustEat.push([row - 1, col + 1])
           } else if (
             relativeMoves[1] === relativeMove &&
             boardData.isEmpty(row - 1, col - 1)
           ) {
             this.canEat = true
-            result.splice(0, result.length)
-            result.push([row - 1, col - 1])
+            mustEat.push([row - 1, col - 1])
           }
         }
       }
     }
-    // if (possibleMoves.length === 0) {
-    //   this.winner = this.getOpponent()
-    //   this.endOfTheGame()
-    // }
-    return result
+    if (mustEat.length === 0) {
+      return result
+    } else return mustEat
   }
 
   getQueenMoves(boardData) {
