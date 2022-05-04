@@ -138,15 +138,58 @@ class Piece {
     return result
   }
 
+  getMovesInDirection(directionRow, directionCol, boardData) {
+    let result = []
+    let mustEat = []
+
+    for (let i = 1; i < BOARD_SIZE; i++) {
+      let row = this.row + directionRow * i
+      let col = this.col + directionCol * i
+      if (boardData.isEmpty(row, col)) {
+        result.push([row, col])
+      } else if (boardData.isPlayer(row, col, this.player)) {
+        return result
+      } else {
+        if (
+          // relativeMoves[0] === relativeMove &&
+          boardData.isEmpty(row + 1, col + 1)
+        ) {
+          this.canEat = true
+          mustEat.push([row + 1, col + 1])
+        } else if (
+          // relativeMoves[1] === relativeMove &&
+          boardData.isEmpty(row + 1, col - 1)
+        ) {
+          this.canEat = true
+          mustEat.push([row + 1, col - 1])
+        }
+        if (
+          // relativeMoves[0] === relativeMove &&
+          boardData.isEmpty(row - 1, col + 1)
+        ) {
+          this.canEat = true
+          mustEat.push([row - 1, col + 1])
+        } else if (
+          // relativeMoves[1] === relativeMove &&
+          boardData.isEmpty(row - 1, col - 1)
+        ) {
+          this.canEat = true
+          mustEat.push([row - 1, col - 1])
+        }
+      }
+    }
+    return result
+  }
+
   /**
    * @function getQueenMoves
    * The function check if one of the players pieces is in a position to become a Queen
    * @returns
    * If conditions were true, the functions change the type of the piece
    */
-  changeToQueen() {
+  changeToQueen(col) {
     if (this.row === 7 && this.player === WHITE_PLAYER) {
-      this.type === QUEEN
+      this.type = QUEEN
     } else if (this.row === 0 && this.player === BLACK_PLAYER) {
       this.type === QUEEN
     }

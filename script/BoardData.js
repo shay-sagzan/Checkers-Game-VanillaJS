@@ -108,7 +108,7 @@ class BoardData {
    * @returns
    * Removes the element in the given row and col
    */
-  removePiece(row, col, removedPawnColor, isRightMove) {
+  removePiece(row, col, removedPawnColor, isRightMove, type) {
     const eatingIndicationState = {
       color: removedPawnColor,
       rightDirection: isRightMove,
@@ -116,20 +116,23 @@ class BoardData {
 
     // Each if and else means the eaten piece color and the direction the piece was eaten
     if (
-      eatingIndicationState.color === BLACK_PLAYER &&
-      eatingIndicationState.rightDirection === true
+      (eatingIndicationState.color === BLACK_PLAYER &&
+        eatingIndicationState.rightDirection === true) ||
+      (type === QUEEN && eatingIndicationState.rightDirection === true)
     ) {
       row = row - 1
       col = col - 1
     } else if (
-      eatingIndicationState.color === BLACK_PLAYER &&
-      eatingIndicationState.rightDirection === false
+      (eatingIndicationState.color === BLACK_PLAYER &&
+        eatingIndicationState.rightDirection === false) ||
+      (type === QUEEN && eatingIndicationState.rightDirection === false)
     ) {
       row = row - 1
       col = col + 1
     } else if (
-      eatingIndicationState.color === WHITE_PLAYER &&
-      eatingIndicationState.rightDirection === true
+      (eatingIndicationState.color === WHITE_PLAYER &&
+        eatingIndicationState.rightDirection === true) ||
+      (type === QUEEN && eatingIndicationState.rightDirection === true)
     ) {
       row = row + 1
       col = col - 1

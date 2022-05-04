@@ -33,10 +33,17 @@ class Game {
 
         // Get data on possible eaten movements
         let isRightMove = false
+        let type = piece.type
         col > oldPieceCol ? (isRightMove = true) : (isRightMove = false)
         if (piece.canEat === true) {
           const pawnEatenColor = piece.getOpponent()
-          this.boardData.removePiece(row, col, pawnEatenColor, isRightMove)
+          this.boardData.removePiece(
+            row,
+            col,
+            pawnEatenColor,
+            isRightMove,
+            type
+          )
         }
 
         // Trigger function who check the length of the arrays (black and white)
