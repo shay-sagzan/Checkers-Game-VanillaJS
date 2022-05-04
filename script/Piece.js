@@ -150,29 +150,17 @@ class Piece {
       } else if (boardData.isPlayer(row, col, this.player)) {
         return result
       } else {
-        if (
-          // relativeMoves[0] === relativeMove &&
-          boardData.isEmpty(row + 1, col + 1)
-        ) {
+        if (boardData.isEmpty(row + 1, col + 1)) {
           this.canEat = true
           mustEat.push([row + 1, col + 1])
-        } else if (
-          // relativeMoves[1] === relativeMove &&
-          boardData.isEmpty(row + 1, col - 1)
-        ) {
+        } else if (boardData.isEmpty(row + 1, col - 1)) {
           this.canEat = true
           mustEat.push([row + 1, col - 1])
         }
-        if (
-          // relativeMoves[0] === relativeMove &&
-          boardData.isEmpty(row - 1, col + 1)
-        ) {
+        if (boardData.isEmpty(row - 1, col + 1)) {
           this.canEat = true
           mustEat.push([row - 1, col + 1])
-        } else if (
-          // relativeMoves[1] === relativeMove &&
-          boardData.isEmpty(row - 1, col - 1)
-        ) {
+        } else if (boardData.isEmpty(row - 1, col - 1)) {
           this.canEat = true
           mustEat.push([row - 1, col - 1])
         }
@@ -182,12 +170,12 @@ class Piece {
   }
 
   /**
-   * @function getQueenMoves
+   * @function changeToQueen
    * The function check if one of the players pieces is in a position to become a Queen
    * @returns
    * If conditions were true, the functions change the type of the piece
    */
-  changeToQueen(col) {
+  changeToQueen() {
     if (this.row === 7 && this.player === WHITE_PLAYER) {
       this.type = QUEEN
     } else if (this.row === 0 && this.player === BLACK_PLAYER) {
