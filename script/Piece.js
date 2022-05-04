@@ -20,13 +20,20 @@ class Piece {
     return WHITE_PLAYER
   }
 
+  /**
+   * @function getPossibleMoves
+   * The function check what is the possible moves for each type of player
+   * The function check also the filtered moves according to absolute moves
+   * @param boardData - given boardData
+   * @returns
+   * The filtered moves of given piece according to boardData
+   */
   getPossibleMoves(boardData) {
     let moves
     if (this.type === PAWN) {
       moves = this.getPawnMoves(boardData)
     } else if (this.type === QUEEN) {
       moves = this.getQueenMoves(boardData)
-    } else {
     }
 
     // Get filtered absolute moves
@@ -46,6 +53,13 @@ class Piece {
     return filteredMoves
   }
 
+  /**
+   * @function getPawnMoves
+   * The function check what is the possible moves and eats for the Pawn
+   * @param boardData - given boardData
+   * @returns
+   * The optional moves for each Pawn if he was selected
+   */
   getPawnMoves(boardData) {
     let result = []
     let mustEat = []
@@ -108,6 +122,13 @@ class Piece {
     }
   }
 
+  /**
+   * @function getQueenMoves
+   * The function check what is the possible moves and eats for the Queen
+   * @param boardData - given boardData
+   * @returns
+   * The optional moves for each Queen if she was selected
+   */
   getQueenMoves(boardData) {
     let result = []
     result = result.concat(this.getMovesInDirection(-1, -1, boardData))
@@ -117,8 +138,14 @@ class Piece {
     return result
   }
 
+  /**
+   * @function getQueenMoves
+   * The function check if one of the players pieces is in a position to become a Queen
+   * @returns
+   * If conditions were true, the functions change the type of the piece
+   */
   changeToQueen() {
-    if (this.row === 3 && this.player === WHITE_PLAYER) {
+    if (this.row === 7 && this.player === WHITE_PLAYER) {
       this.type === QUEEN
     } else if (this.row === 0 && this.player === BLACK_PLAYER) {
       this.type === QUEEN

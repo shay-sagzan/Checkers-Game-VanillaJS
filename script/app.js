@@ -13,10 +13,10 @@ const CHECKER_BOARD_ID = "checker-board"
 
 /**
  * @function tryUpdateSelectedPiece
- * The function clears all the previous classList after element movement and
- * try to update the next selected piece
- * @param row
- * @param col
+ * The function clears all the previous classLists after element movement and
+ * try to update the next selected piece and to mark the possible moves
+ * @param row - given row
+ * @param col - given col
  */
 function tryUpdateSelectedPiece(row, col) {
   // Clear all previous possible moves
@@ -36,22 +36,24 @@ function tryUpdateSelectedPiece(row, col) {
       cell.classList.add("possible-move")
     }
   }
-
+  // The selected piece
   table.rows[row].cells[col].classList.add("selected")
   selectedPiece = piece
 }
 
 /**
  * @function onCellClick
- * The function mark cell by "click", the function is significant to play cheker game
- * @param row
- * @param col
+ * The function mark cell by "click". The function trigers the createChekerBoard function and
+ * tryUpdateSelectedPiece function
+ * @param row - given row of click
+ * @param col - given col of click
  */
 function onCellClick(row, col) {
   // selectedPiece - The current selected piece (selected in previous click)
   // row, col - the currently clicked cell - it may be empty, or have a piece.
   if (selectedPiece !== undefined && game.tryMove(selectedPiece, row, col)) {
     selectedPiece = undefined
+
     // Recreate whole board - this is not efficient, but doesn't affect user experience
     createChekerBoard(game.boardData)
   } else {
@@ -61,10 +63,10 @@ function onCellClick(row, col) {
 
 /**
  * @function addImage
- * The function adds an image to cell with the piece's image
- * @param cell
- * @param player
- * @param name
+ * The function adds an image to the cell
+ * @param cell - given cell
+ * @param player - given player
+ * @param name - given name
  */
 function addImage(cell, player, name) {
   const image = document.createElement("img")
@@ -75,10 +77,9 @@ function addImage(cell, player, name) {
 
 /**
  * @function createCheckerBoard
- * The function get mark the table by the ID and remove it
- * if !== null, then, the function create the board 8*8 and
- * add the images to relevant cells
- * @param boardData
+ * The function mark the table by ID and remove it if !== null,
+ * then, the function create the board 8*8 and triggers the other relevant functions
+ * @param boardData - given boardData from the game
  */
 function createChekerBoard(boardData) {
   table = document.getElementById(CHECKER_BOARD_ID)
@@ -109,6 +110,7 @@ function createChekerBoard(boardData) {
     addImage(cell, piece.player, piece.type)
   }
 
+  // Winner dialog at the end of the game
   if (game.winner !== undefined) {
     const winnerPopup = document.createElement("h2")
     const winner = game.winner.charAt(0).toUpperCase() + game.winner.slice(1)
@@ -120,7 +122,7 @@ function createChekerBoard(boardData) {
 
 /**
  * @function initGame
- * The function init the game and create the cheker board table
+ * The function init the game and create the cheker board table, with the relevant data
  */
 function initGame() {
   resetBtn = document.createElement("button")

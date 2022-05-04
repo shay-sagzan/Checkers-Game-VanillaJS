@@ -22,6 +22,11 @@ class BoardData {
     }
   }
 
+  /**
+   * @function checkForBlackArray
+   * The function create a new array for black pieces who will help us to know
+   * if there is a winner to the game, by checking if the length === 0
+   */
   checkForBlackArray() {
     this.blackPieces = []
     for (let i = 0; i < this.pieces.length; i++) {
@@ -32,6 +37,11 @@ class BoardData {
     return this.blackPieces
   }
 
+  /**
+   * @function checkForWhiteArray
+   * The function create a new array for black pieces who will help us to know
+   * if there is a winner to the game, by checking if the length === 0
+   */
   checkForWhiteArray() {
     this.whitePieces = []
     for (let i = 0; i < this.pieces.length; i++) {
@@ -42,6 +52,11 @@ class BoardData {
     return this.whitePieces
   }
 
+  /**
+   * @function checkForBlackEndMoves
+   * The function check if there are no more possible moves for a black piece.
+   * If true, game winner is the opponent
+   */
   checkForBlackEndMoves() {
     const blackArr = this.checkForBlackArray()
     for (let i = 0; i < blackArr; i++) {
@@ -52,6 +67,11 @@ class BoardData {
     return true
   }
 
+  /**
+   * @function checkForWhiteEndMoves
+   * The function check if there are no more possible moves for a white piece.
+   * If true, game winner is the opponent
+   */
   checkForWhiteEndMoves() {
     const whiteArr = this.checkForWhiteArray()
     for (let i = 0; i < whiteArr; i++) {
@@ -64,11 +84,11 @@ class BoardData {
 
   /**
    * @function getPiece
-   * The function check the which piece is in the given row and col
+   * The function check the equality of rows and cols.
    * @param row - given row
    * @param col - given col
    * @returns
-   * piece in given row and col, or undefined if not exists
+   * Piece with row and col, or undefined if not exists
    */
   getPiece(row, col) {
     for (const piece of this.pieces) {
@@ -86,7 +106,7 @@ class BoardData {
    * @param removedPawnColor - eat indication
    * @param isRightMove - eat indication
    * @returns
-   * The new element in the row and the col of the eaten element
+   * Removes the element in the given row and col
    */
   removePiece(row, col, removedPawnColor, isRightMove) {
     const eatingIndicationState = {
@@ -94,6 +114,7 @@ class BoardData {
       rightDirection: isRightMove,
     }
 
+    // Each if and else means the eaten piece color and the direction the piece was eaten
     if (
       eatingIndicationState.color === BLACK_PLAYER &&
       eatingIndicationState.rightDirection === true
@@ -117,9 +138,9 @@ class BoardData {
       col = col + 1
     }
 
+    // Find the relevant piece in the array pieces and remove it by splice
     for (let i = 0; i < this.pieces.length; i++) {
-      const piece = this.pieces[i] // i have all the objects of piece
-      //check for possible forward eats
+      const piece = this.pieces[i]
       if (
         (piece.row === row && piece.col === col) ||
         (piece.row === row && piece.col === col)
@@ -145,7 +166,7 @@ class BoardData {
 
   /**
    * @function isPlayer
-   * The function check what is the color of the element on given piece
+   * The function check what is the color of given player
    * @param row - given row
    * @param col - given col
    * @param player - given player color

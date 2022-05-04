@@ -7,10 +7,11 @@ class Game {
 
   /**
    * @function tryMove
-   * The function tries to make a move. Check for possible moves
-   * @param piece - the given piece
-   * @param row - the given row
-   * @param col - the given col
+   * The function tries to make a move and check for possible moves. The function also check for
+   * winner or any change with the player's type
+   * @param piece - given piece
+   * @param row - given row
+   * @param col - given col
    * @returns
    * True if move is successful, Otherwise - false
    */
@@ -22,6 +23,7 @@ class Game {
         piece.row = row
         piece.col = col
 
+        // Trigger functions to check if there are no more moves for one of the players
         if ((this.boardData.checkForBlackEndMoves = true)) {
           this.winner = WHITE_PLAYER
         }
@@ -29,6 +31,7 @@ class Game {
           this.winner = BLACK_PLAYER
         }
 
+        // Get data on possible eaten movements
         let isRightMove = false
         col > oldPieceCol ? (isRightMove = true) : (isRightMove = false)
         if (piece.canEat === true) {
@@ -36,6 +39,7 @@ class Game {
           this.boardData.removePiece(row, col, pawnEatenColor, isRightMove)
         }
 
+        // Trigger function who check the length of the arrays (black and white)
         this.boardData.checkForWhiteArray().length === 0
           ? (this.winner = WHITE_PLAYER)
           : (this.winner = undefined)
@@ -43,6 +47,7 @@ class Game {
           ? (this.winner = BLACK_PLAYER)
           : (this.winner = undefined)
 
+        // Check if piece change to Queen
         piece.changeToQueen()
 
         this.currentPlayer = piece.getOpponent()
